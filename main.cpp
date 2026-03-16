@@ -77,7 +77,7 @@ public:
         temp->next = newNode;
     }
 
-    void delete_node(int value) {
+    void delete_val(int value) {
         if (!head) return; // Empty list
 
         Node* temp = head;
@@ -121,6 +121,64 @@ public:
         cout << endl;
     }
 
+    //delete position
+    void delete_pos(int p) {
+        if (p < 0) {
+            cout << "Position must be >= 0." << endl;
+            return;
+        }
+
+        //check for head
+        if (p == 0) {
+            pop_front();
+            return;
+        }
+
+        Node* temp = head;
+        for (int i = 0; i < p && temp; ++i)
+            temp = temp->next;
+
+        if (!temp) {
+            cout << "Position exceeds list size. Node not deleted.\n";
+            return;
+        }
+
+        if (temp->prev) {
+            temp->prev->next = temp->next;
+        } else {
+            head = temp->next; // Deleting the head
+        }
+
+        if (temp->next) {
+            temp->next->prev = temp->prev;
+        } else {
+            tail = temp->prev; // Deleting the tail
+        }
+
+        delete temp;
+    }
+
+    //popfront function
+    void pop_front() {
+        if (!head) return;
+        Node* temp = head;
+        head = head->next;
+        if (head) head->prev = nullptr;
+        else tail = nullptr;
+        delete temp;
+        return;
+    }
+    //popback function
+    void pop_back() {
+        if (!tail) return;
+        Node* temp = tail;
+        tail = tail->prev;
+        if (tail) tail->next = nullptr;
+        else head = nullptr;
+        delete temp;
+        return;
+    }
+
     ~DoublyLinkedList() {
         while (head) {
             Node* temp = head;
@@ -140,11 +198,19 @@ int main() {
     cout << "List forward: ";
     list.print();
 
-    cout << "List backward: ";
-    list.print_reverse();
+    //testing
+    cout << "Pushing 100 to the front.\n";
+    list.push_front(100);
+    cout << "List forward: ";
+    list.print();
 
-    cout << "Deleting list, then trying to print.\n";
-    list.~DoublyLinkedList();
+    cout << "Pushing 200 to the back.\n";
+    list.push_back(200);
+    cout << "List forward: ";
+    list.print();
+
+    cout << "Deleting position 1.\n";
+    list.delete_pos(1);
     cout << "List forward: ";
     list.print();
 
