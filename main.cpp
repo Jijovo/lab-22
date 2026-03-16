@@ -214,5 +214,15 @@ int main() {
     cout << "List forward: ";
     list.print();
 
+    cout << "Deleting head.\n";
+    list.pop_front();
+    cout << "List forward: ";
+    list.print();
+
+    cout << "Deleting tail.\n";
+    list.pop_back();
+    cout << "List forward: ";
+    list.print();
+
     return 0;
 }
